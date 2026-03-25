@@ -138,6 +138,12 @@ variable "create_external_alb" {
   default     = true
 }
 
+variable "external_alb_internal" {
+  type        = bool
+  description = "Set this flag to true to have the external load balancer for TeamCity as an internal ALB."
+  default     = false
+}
+
 variable "alb_subnets" {
   type        = list(string)
   description = "The subnets in which the ALB will be deployed"

@@ -394,7 +394,7 @@ resource "aws_lb" "teamcity_external_lb" {
   name               = "${local.name_prefix}-lb"
   security_groups    = [aws_security_group.teamcity_alb_sg[0].id]
   load_balancer_type = "application"
-  internal           = false
+  internal           = var.external_alb_internal
   subnets            = var.alb_subnets
 
 

@@ -32,3 +32,13 @@ output "teamcity_efs_id" {
   value = aws_efs_file_system.teamcity_efs_file_system[0].id
   description = "The id of the TeamCity EFS."
 }
+
+output "teamcity_task_role_arn" {
+  value = aws_iam_role.teamcity_default_role.arn
+  description = "The ARN of the task for role for TeamCity tasks in ECS. Customize with additional policies."
+}
+
+output "teamcity_task_role_name" {
+  value = aws_iam_role.teamcity_default_role.name
+  description = "The name of the task for role for TeamCity tasks in ECS. Customize with additional policies."
+}

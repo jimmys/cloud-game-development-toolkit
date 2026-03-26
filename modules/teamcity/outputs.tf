@@ -22,3 +22,13 @@ output "teamcity_alb_sg_id" {
   value = aws_security_group.teamcity_alb_sg[0].id
   description = "The security group attached to the TeamCity ALB."
 }
+
+output "teamcity_efs_sg_id" {
+  value = aws_security_group.teamcity_efs_sg[0].id
+  description = "The security group for the TeamCity EFS so that an EC2 instance can mount it."
+}
+
+output "teamcity_efs_id" {
+  value = aws_efs_file_system.teamcity_efs_file_system[0].id
+  description = "The id of the TeamCity EFS."
+}

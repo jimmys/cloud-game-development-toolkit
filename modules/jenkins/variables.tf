@@ -91,6 +91,12 @@ variable "cluster_name" {
   default     = null
 }
 
+variable "jenkins_version" {
+  type = string
+  description = "The tag for the docker version of the Jenkins container to deploy. Defaults to lts-jdk17."
+  default = "lts-jdk17"
+}
+
 variable "create_application_load_balancer" {
   type        = bool
   description = "Controls creation of an application load balancer within the module. Defaults to true."

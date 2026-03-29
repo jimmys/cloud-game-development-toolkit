@@ -66,7 +66,7 @@ resource "aws_ecs_task_definition" "teamcity_task_definition" {
       mountPoints = [
         {
           sourceVolume  = "teamcity_data",
-          containerPath = "/data/teamcity_server/datadir"
+          containerPath = "/data/teamcity_server"
           readOnly      = false
         }
       ]
@@ -547,7 +547,7 @@ resource "aws_efs_access_point" "teamcity_efs_data_access_point" {
     uid = 1000
   }
   root_directory {
-    path = "/data/teamcity_server/datadir"
+    path = "/data/teamcity_server"
     creation_info {
       owner_gid   = 1000
       owner_uid   = 1000

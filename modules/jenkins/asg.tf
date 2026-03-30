@@ -48,4 +48,13 @@ resource "aws_autoscaling_group" "jenkins_build_farm_asg" {
     value               = "${local.name_prefix}-${each.key}-build-farm"
     propagate_at_launch = true
   }
+
+  lifecycle {
+    # Ignore changes to max_size, min_size, and desired_capacity
+    ignore_changes = [
+      max_size,
+      min_size,
+      desired_capacity,
+    ]
+  }
 }

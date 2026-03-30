@@ -286,3 +286,9 @@ variable "artifact_buckets" {
   description = "List of Amazon S3 buckets you wish to create to store build farm artifacts."
   default     = null
 }
+
+variable "build_farm_ssm_session_permitted" {
+  type = bool
+  description = "If enabled, permit connections to build farm instances via SSM Sessions."
+  default = false
+}

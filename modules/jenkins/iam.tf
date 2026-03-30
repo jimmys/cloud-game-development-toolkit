@@ -234,6 +234,32 @@ resource "aws_iam_policy" "build_farm_fsxz_policy" {
   policy      = data.aws_iam_policy_document.build_farm_fsxz_policy.json
 }
 
+# Permit connection to Build Farm instances via SSM Sessions
+data "aws_iam_policy_document" "build_farm_ssm_session_policy" {
+  count = var.build_farm_ssm_session_permitted ? 1 : 0
+  statement {
+    effect = "Allow"
+    actions = [
+      "ssm:UpdateInstanceInformation",
+      "ssmmessages:CreateControlChannel",
+      "ssmmessages:CreateDataChannel",
+      "ssmmessages:OpenControlChannel",
+      "ssmmessages:OpenDataChannel"
+    ]
+    resources = [
+      "*",
+    ]
+  }
+}
+
+resource "aws_iam_policy" "build_farm_ssm_session_policy" {
+  count = var.build_farm_ssm_session_permitted ? 1 : 0
+
+  name        = "${var.project_prefix}-build-farm-ssm-connect-policy"
+  description = "Policy permitting access to Build Farm EC2 instances via SSM Connect."
+  policy      = data.aws_iam_policy_document.build_farm_ssm_session_policy[0].json
+}
+
 # - Roles -
 # Jenkins
 resource "aws_iam_role" "jenkins_default_role" {
@@ -294,6 +320,12 @@ resource "aws_iam_role_policy_attachment" "build_farm_role_fsxz_attachment" {
 
 resource "aws_iam_role_policy_attachment" "build_farm_role_s3_attachment" {
   policy_arn = aws_iam_policy.build_farm_s3_policy.arn
+  role       = aws_iam_role.build_farm_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "build_farm_role_ssm_attachment" {
+  count      = var.build_farm_ssm_session_permitted ? 1 : 0
+  policy_arn = aws_iam_policy.build_farm_ssm_session_policy[0].arn
   role       = aws_iam_role.build_farm_role.name
 }
 

@@ -322,6 +322,33 @@ data "aws_iam_policy_document" "teamcity_default_policy" {
     actions   = ["logs:CreateLogGroup"]
     resources = ["*"]
   }
+
+  # Support EC2 build agent instance management
+  # A cut down version from here https://www.jetbrains.com/help/teamcity/setting-up-teamcity-for-amazon-ec2.html#Required+IAM+permissions
+  # This smaller list supports starting/stopping existing instances but does not permit creating new ones
+  # Could be improved to specify some additional limits on which instances can be affected
+  statement {
+    sid    = "InstanceManagement"
+    effect = "Allow"
+    actions = [
+      "ec2:Describe*",
+      "ec2:ModifyInstanceAttribute",
+      "ec2:StartInstances",
+      "ec2:StopInstances",
+      "ec2:RebootInstances",
+      "ec2:*Tags"
+    ]
+    resources = ["*"] # TODO improve
+  }
+
+  statement {
+    sid    = "ServiceMetadata"
+    effect = "Allow"
+    actions = [
+      "ec2:DescribeRegions",
+    ]
+    resources = ["*"]
+  }
 }
 
 resource "aws_iam_policy" "teamcity_default_policy" {

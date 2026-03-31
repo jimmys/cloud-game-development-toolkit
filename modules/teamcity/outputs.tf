@@ -8,6 +8,11 @@ output "external_alb_zone_id" {
   description = "Zone ID for internet facing load balancer"
 }
 
+output "external_alb_name" {
+  value       = var.create_external_alb ? aws_lb.teamcity_external_lb[0].name : null
+  description = "Name for internet facing load balancer"
+}
+
 output "security_group_id" {
   value       = aws_security_group.teamcity_service_sg.id
   description = "The default security group of your Teamcity service."
